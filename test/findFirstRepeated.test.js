@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import findFirstRepeated from '../src/findFirstRepeatated';
 
-describe('Find first repeated element', () => {
+describe('findFirstRepeated gift', () => {
     test('First repeated element is at index 2 => 3', () => {
         expect(findFirstRepeated([2, 1, 3, 5, 3, 2])).toBe(3);
     });
