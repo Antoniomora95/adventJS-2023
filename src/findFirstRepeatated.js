@@ -1,3 +1,4 @@
+// challenge #1
 export default function findFirstRepeated(gifts) {
     const memory = new Map();
     for (let i = 0; i < gifts.length; i += 1) {
