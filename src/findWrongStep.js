@@ -1,3 +1,4 @@
+// challenge # 3
 export default function findWrongStep(original, modified) {
     const isModifiedEqualOrGrater = modified.length >= original.length;
     const lengthIteration = Math.max(original.length, modified.length);

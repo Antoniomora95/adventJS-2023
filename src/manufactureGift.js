@@ -9,6 +9,7 @@ const materials = 'tronesa'
 manufacture(gifts, materials) // ["tren", "oso"]
 */
 
+// challenge #2
 function manufacturerGift(gifts, materials) {
     return gifts.filter((gift) => (
         gift.split('')
