@@ -1,4 +1,4 @@
-export default function organizeGifts(gifts) {
+export default function organizeGifts(gifts = '') {
     const paletCapacity = 50;
     const boxCapacity = 10;
 
