@@ -12,14 +12,14 @@ export default function createChristmasTree(ornaments, height) {
         return baseOrnaments.padEnd(totalOrnaments, baseOrnaments);
     }
 
-    const totalRequiredOrnaments = getOrnamentsCount(height);
-    const totalOrnaments = createAllOrnaments(ornaments, totalRequiredOrnaments);
+    const countOrnaments = getOrnamentsCount(height);
+    const totalCharOrnaments = createAllOrnaments(ornaments, countOrnaments);
     let constructedTree = '';
 
     for (let row = 0; row < height; row += 1) {
         const positionsToIgnore = getOrnamentsCount(row);
         const leftPadding = getLeftSpacing(row, height);
-        const rowOrnaments = totalOrnaments
+        const rowOrnaments = totalCharOrnaments
             .substring(positionsToIgnore, positionsToIgnore + row + 1);
 
         const rowOrnamentsWithSpace = rowOrnaments.split('').join(' ');
