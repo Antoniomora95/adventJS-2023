@@ -1,46 +1,34 @@
 export default function createChristmasTree(ornaments, height) {
-    let constructedTree = '';
     const spacingSymbol = ' ';
-
+    const getOrnamentsCount = (size) => (size * (size + 1)) / 2;
     function getLeftSpacing(currentRow, paramHeight) {
         return spacingSymbol.repeat(paramHeight - currentRow - 1);
     }
 
-    function getRowOrnamentsAndLeftOver(baseRowOrnaments, baseOrnaments, width) {
-        // add elements to the right, need to complete row tree
-
-        let ornamentsForRow = null;
-        if (baseRowOrnaments.length > width) {
-            ornamentsForRow = baseRowOrnaments.substring(0, width);
-        } else {
-            ornamentsForRow = baseRowOrnaments.padEnd(width, baseOrnaments);
+    function createAllOrnaments(baseOrnaments, totalOrnaments) {
+        if (baseOrnaments.length > totalOrnaments) {
+            return baseOrnaments.substring(0, totalOrnaments);
         }
-
-        const lastCharInOrnament = ornamentsForRow.at(-1);
-        // look for the last character in the ornaments ?
-        const indexOfChar = baseOrnaments.indexOf(lastCharInOrnament);
-
-        // indexOfChar should always appear in the ornaments
-        const leftOverFromRow = baseOrnaments.substring(indexOfChar + 1);
-        return {
-            leftOverFromRow,
-            ornamentsForRow: ornamentsForRow.split('').join(' '),
-        };
+        return baseOrnaments.padEnd(totalOrnaments, baseOrnaments);
     }
 
+    const totalRequiredOrnaments = getOrnamentsCount(height);
+    const totalOrnaments = createAllOrnaments(ornaments, totalRequiredOrnaments);
+    let constructedTree = '';
+
     for (let row = 0; row < height; row += 1) {
-        const baseRowOrnaments = leftOver || ornaments;
+        const positionsToIgnore = getOrnamentsCount(row);
         const leftPadding = getLeftSpacing(row, height);
-        const {
-            ornamentsForRow,
-            leftOverFromRow,
-        } = getRowOrnamentsAndLeftOver(baseRowOrnaments, ornaments, row + 1);
-        constructedTree += `${leftPadding}${ornamentsForRow}\n`;
-        leftOver = leftOverFromRow;
+        const rowOrnaments = totalOrnaments
+            .substring(positionsToIgnore, positionsToIgnore + row + 1);
+
+        const rowOrnamentsWithSpace = rowOrnaments.split('').join(' ');
+
+        constructedTree += `${leftPadding}${rowOrnamentsWithSpace}\n`;
     }
     constructedTree += `${spacingSymbol.repeat(height - 1)}|\n`;
 
     return constructedTree;
 }
 
-console.log(createChristmasTree('A', 4));
+console.log(createChristmasTree('AAWA', 5));
