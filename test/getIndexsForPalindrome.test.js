@@ -16,7 +16,7 @@ If it is not possible, null.
 If a palindrome can be formed with one change,
 an array with the two positions (indexes) that must be swapped to create it.
 */
-describe('getIndexsForPalindrome', () => {
+describe.only('getIndexsForPalindrome', () => {
     test('returns empty array because it is already a palindrome', () => {
         expect(getIndexsForPalindrome('anna')).toStrictEqual([]);
     });
