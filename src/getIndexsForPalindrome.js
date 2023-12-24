@@ -1,65 +1,64 @@
 export default function getIndexsForPalindrome(word = '') {
-    // find the indexs where the words do not match (no palindrome)
-
-    // first letters that do not match, we stop, and return the indexs
-    // these will help you to check to its right and left positions
-    // we will check on each iteration if we already have a match
-    // then we return the indexs which helped us find the palindrome
-
     const halfLengthSize = Math.floor(word.length / 2);
     function findInitialIndexesSwap(wordParam, length) {
         const originalLength = word.length;
         for (let index = 0; index < length; index += 1) {
             const indexLeft = index;
             const indexRight = originalLength - 1 - index;
-            if (wordParam.at((indexLeft)) !== wordParam.at((indexRight))) {
-                return {
+            if (wordParam.at(indexLeft) !== wordParam.at(indexRight)) {
+                return [
                     indexLeft,
                     indexRight,
-                };
+                ];
             }
         }
         return null;
     }
 
-    const indexs = findInitialIndexesSwap(word, halfLengthSize);
+    function isPalindromeOnSwipeForIndex(wordParam, staticIndex, currentIndex) {
+        const aux = wordParam.at(staticIndex);
 
-    if (!indexs) {
-        // this is already a palindrome, return empty array
+        const partialSwap = wordParam.substring(0, staticIndex)
+        + wordParam.at(currentIndex)
+        + wordParam.substring(staticIndex + 1);
+
+        const wordWithSwap = partialSwap.substring(0, currentIndex) + aux
+        + partialSwap.substring(currentIndex + 1);
+
+        const reversedString = wordWithSwap.split('').reverse().join('');
+        // compare against swapped word (the idea)
+        // is to get a palindrome after the positions swap, and ensure
+        // the reversed string is the same
+        return reversedString === wordWithSwap;
+    }
+
+    const initialIndexs = findInitialIndexesSwap(word, halfLengthSize);
+
+    if (!initialIndexs) {
+        // already a palindrome
         return [];
     }
-    const { indexLeft, indexRight } = indexs;
 
-    const wordArrray = word.split('');
+    const [indexLeft, indexRight] = initialIndexs;
 
-    for (let index = indexLeft + 1; index < indexRight; index += 1) {
-        // going right, 2 chars
-        const staticIndexLeft = indexLeft;
-        const dynamiIndexLeft = index;
-        const wordsCopy = wordArrray.slice();
-        const auxLeft = wordsCopy.at(staticIndexLeft);
-        wordsCopy.splice(staticIndexLeft, 1, wordsCopy.at(dynamiIndexLeft));
-        wordsCopy.splice(dynamiIndexLeft, 1, auxLeft);
-        const copyForReverse = wordsCopy.slice();
-        if (copyForReverse.reverse().join('') === wordsCopy.join('')) {
-            // a palindrome
-            return [staticIndexLeft, dynamiIndexLeft];
+    for (let currentIndex = indexLeft + 1; currentIndex < indexRight; currentIndex += 1) {
+        const currentRight = indexRight - currentIndex;
+        const palindromeLeft = isPalindromeOnSwipeForIndex(word, indexLeft, currentIndex);
+        const palindromeRight = isPalindromeOnSwipeForIndex(word, indexRight, currentRight);
+        if (palindromeLeft) {
+            return [
+                indexLeft,
+                currentIndex,
+            ].sort((a, b) => a - b);
         }
-        // from right to left
-
-        const staticIndexRight = indexRight;
-        const dynamiIndexRight = -index - 1;
-        const wordsCopyRight = wordArrray.slice();
-        const auxRight = wordsCopy.at(staticIndexRight);
-        wordsCopyRight.splice(staticIndexRight, 1, wordsCopy.at(dynamiIndexRight));
-        wordsCopyRight.splice(dynamiIndexRight, 1, auxRight);
-        const secondCopyeForReverse = wordsCopyRight.slice();
-        if (secondCopyeForReverse.reverse().join('') === wordsCopyRight.join()) {
-            // a palindrome
-            return [staticIndexRight, dynamiIndexRight];
+        if (palindromeRight) {
+            return [
+                indexRight,
+                currentRight,
+            ].sort((a, b) => a - b);
         }
     }
     return null;
 }
 
-getIndexsForPalindrome('abab');
+// console.log(getIndexsForPalindrome('baabaa'));
