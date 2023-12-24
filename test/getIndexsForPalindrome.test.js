@@ -41,7 +41,7 @@ describe('getIndexsForPalindrome', () => {
         expect(getIndexsForPalindrome('caababa')).toStrictEqual(null);
     });
 
-    test('return the one more to the initial indexs, when there are multiple options', () => {
+    test('return the indexes closer to index 0, when there are multiple options', () => {
         expect(getIndexsForPalindrome('baabaa')).toStrictEqual([0, 2]);
     });
 
