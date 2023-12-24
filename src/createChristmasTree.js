@@ -30,5 +30,3 @@ export default function createChristmasTree(ornaments, height) {
 
     return constructedTree;
 }
-
-console.log(createChristmasTree('AAWA', 5));
