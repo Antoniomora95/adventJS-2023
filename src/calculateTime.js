@@ -8,12 +8,12 @@ export default function calculateTime(deliveries = []) {
     };
     const finalTime = deliveries.reduce((sumTime, currentTime) => {
         const { hours, minutes, seconds } = sumTime;
-        const [currentHours, currentMinutes, currentSeconds] = currentTime.split(':').map((time) => parseInt(time, 10));
+        const [currentHours, currentMinutes, currentSeconds] = currentTime.split(':');
 
         return {
-            hours: hours + currentHours,
-            minutes: minutes + currentMinutes,
-            seconds: seconds + currentSeconds,
+            hours: +currentHours + hours,
+            minutes: +currentMinutes + minutes,
+            seconds: +currentSeconds + seconds,
         };
     }, initialTime);
 
