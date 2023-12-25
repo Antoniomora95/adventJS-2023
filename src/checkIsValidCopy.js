@@ -33,16 +33,13 @@ export default function checkIsValidCopy(original = '', copy = '') {
         }
 
         const isOriginalLower = LOWERCASE_REGEX.test(charAtOriginal);
-        const isValidPresedence = presedences[charAtCopy] > 0;
-        if ((isOriginalUpper || isOriginalLower) && isValidPresedence) {
+        const isValidCopy = presedences[charAtCopy] > 0;
+        if ((isOriginalUpper || isOriginalLower) && isValidCopy) {
             return true;
         }
         // finally if both are valid symbols
-        const hasValidPresedenceSymbol = presedences[charAtCopy] > presedences[charAtOriginal];
+        const isValidSymbol = presedences[charAtCopy] > presedences[charAtOriginal];
 
-        if (hasValidPresedenceSymbol) {
-            return true;
-        }
-        return false;
+        return isValidSymbol;
     });
 }
