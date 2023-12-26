@@ -2,11 +2,11 @@ export default function checkIsValidCopy(original = '', copy = '') {
     // DO NOT USE /g here because you have to match only once
     // /g is used when you want to perform the logic more than once in the string
     const presedences = {
-        '#': 1,
-        '+': 2,
-        ':': 3,
-        '.': 4,
-        ' ': 5,
+        '#': 2,
+        '+': 3,
+        ':': 4,
+        '.': 5,
+        ' ': 6,
     };
 
     // look if original and copy are the same string
@@ -16,30 +16,27 @@ export default function checkIsValidCopy(original = '', copy = '') {
     // and the copy is a valid presedence symbol
     // if not: then check if both chars are valid symbol with valid presence between them
     // finally, return false, the copy char is not valid, and the whole copy string too.
-    const UPPERCASE_REGEX = /[A-Z]/;
+    // const UPPERCASE_REGEX = /[A-Z]/;
     const LOWERCASE_REGEX = /[a-z]/;
-    return original.split('').every((charAtOriginal, index) => {
-        const charAtCopy = copy.charAt(index);
+    return original.split('').every((originalChar, index) => {
+        const copyChar = copy.charAt(index);
 
-        if (charAtOriginal === charAtCopy) {
-            return true;
+        const valueForOriginal = presedences[originalChar]
+            ?? (LOWERCASE_REGEX.test(originalChar) ? 1 : 0);
+
+        const valueForCopy = presedences[copyChar]
+            ?? (LOWERCASE_REGEX.test(copyChar) ? 1 : 0);
+
+        if (valueForCopy < valueForOriginal) {
+            return false;
         }
 
-        const isOriginalUpper = UPPERCASE_REGEX.test(charAtOriginal);
-        const isSameLowerCase = charAtOriginal.toLowerCase() === charAtCopy;
-
-        if (isOriginalUpper && isSameLowerCase) {
-            return true;
+        if (valueForOriginal < 2 && valueForCopy < 2
+            && originalChar.toUpperCase() !== copyChar.toUpperCase()) {
+            return false;
         }
-
-        const isOriginalLower = LOWERCASE_REGEX.test(charAtOriginal);
-        const isValidCopy = presedences[charAtCopy] > 0;
-        if ((isOriginalUpper || isOriginalLower) && isValidCopy) {
-            return true;
-        }
-        // finally if both are valid symbols
-        const isValidSymbol = presedences[charAtCopy] > presedences[charAtOriginal];
-
-        return isValidSymbol;
+        return true;
     });
 }
+
+checkIsValidCopy('Santa Claus is coming', 'sa#ta Cl#us i+ comin#');
