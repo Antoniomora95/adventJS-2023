@@ -7,8 +7,7 @@
 export default function drawGift(figureWidth, symbol) {
     const SPACING = ' ';
     const BORDER = '#';
-    const halfOutput = [];
-    // let wholeOutput = [];
+    const output = [];
 
     const COUNT_SYMBOL = figureWidth - 2;
     const VALID_COUNT_SYMBOL = COUNT_SYMBOL >= 0 ? COUNT_SYMBOL : 0;
@@ -35,16 +34,16 @@ export default function drawGift(figureWidth, symbol) {
     for (let index = 0; index < figureWidth; index += 1) {
         const rowContent = builsRowContent(index);
         const rowSpacing = buildRowSpacing(index);
-        halfOutput.push(`${rowSpacing + rowContent}\n`);
+        output.push(`${rowSpacing + rowContent}\n`);
     }
 
-    const lastIndex = halfOutput.length - 1;
+    const middle = figureWidth - 1;
     for (let index = 1; index < figureWidth; index += 1) {
-        const inverseRow = halfOutput.at(lastIndex - index);
+        const inverseRow = output.at(middle - index);
         // delete original spacing
-        halfOutput.push(inverseRow.trimStart());
+        output.push(inverseRow.trimStart());
     }
-    return halfOutput.join('');
+    return output.join('');
 }
 
 console.log(drawGift(4, '+'), 'very basic drawing');
