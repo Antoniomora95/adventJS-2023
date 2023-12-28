@@ -1,35 +1,50 @@
-export default function drawGift(figureWidth, faceIcon) {
+/**
+ * @function drawGift
+ * @param {number} figureWidth
+ * @param {string} symbol
+ * @returns string
+ */
+export default function drawGift(figureWidth, symbol) {
     const SPACING = ' ';
-    const borderRow = '#';
+    const BORDER = '#';
     const halfOutput = [];
-    let wholeOutput = [];
+    // let wholeOutput = [];
 
-    for (let index = 0; index < figureWidth; index += 1) {
-        const spacing = figureWidth - 1 - index;
-        const realSpacing = spacing > 0 ? spacing : 0;
-        halfOutput.push(`${SPACING.repeat(realSpacing) + borderRow.repeat(figureWidth + index)}\n`);
+    const COUNT_SYMBOL = figureWidth - 2;
+    const VALID_COUNT_SYMBOL = COUNT_SYMBOL >= 0 ? COUNT_SYMBOL : 0;
+    const CONSTANT_SYMBOL = symbol.repeat(VALID_COUNT_SYMBOL);
+    const CONSTANT_BORDER = BORDER.repeat(VALID_COUNT_SYMBOL);
+
+    function builsRowContent(index) {
+        if (index === 0) {
+            return BORDER.repeat(figureWidth);
+        }
+
+        const dynamicSymbols = symbol.repeat(index - 1);
+        if (index <= COUNT_SYMBOL) {
+            return BORDER + CONSTANT_SYMBOL + BORDER + dynamicSymbols + BORDER;
+        }
+        return BORDER + CONSTANT_BORDER + BORDER + dynamicSymbols + BORDER;
     }
 
-    wholeOutput = [...halfOutput];
+    function buildRowSpacing(index) {
+        const spacing = figureWidth - 1 - index;
+        return SPACING.repeat(spacing);
+    }
+
+    for (let index = 0; index < figureWidth; index += 1) {
+        const rowContent = builsRowContent(index);
+        const rowSpacing = buildRowSpacing(index);
+        halfOutput.push(`${rowSpacing + rowContent}\n`);
+    }
 
     const lastIndex = halfOutput.length - 1;
     for (let index = 1; index < figureWidth; index += 1) {
-        let inverseRow = halfOutput.at(lastIndex - index);
-        // inverse the spacing
-        const charsSpace = inverseRow.substring(0, index);
-        inverseRow = inverseRow.substring(index, inverseRow.length - 1)
-            + charsSpace + inverseRow.substring(inverseRow.length - 1);
-        wholeOutput.push(inverseRow);
+        const inverseRow = halfOutput.at(lastIndex - index);
+        // delete original spacing
+        halfOutput.push(inverseRow.trimStart());
     }
-    return wholeOutput.join('');
+    return halfOutput.join('');
 }
 
-console.log(drawGift(2, '+'), 'very basic drawing');
-
-/*
-    ###
-   #*##
-  #*#*#
-  #*##
-  ###
-*/
+console.log(drawGift(4, '+'), 'very basic drawing');

@@ -1,4 +1,4 @@
-export default function decodeMessage(message = '') {
+export default function decodeMessage(message) {
     // const regex = /\(\w*\(|\)\w*\)/g;
     const regexOneLevel = /\(\w*\)/g;
     const levelOne = message.matchAll(regexOneLevel);
