@@ -45,5 +45,3 @@ export default function drawGift(figureWidth, symbol) {
     }
     return output.join('');
 }
-
-console.log(drawGift(4, '+'), 'very basic drawing');
