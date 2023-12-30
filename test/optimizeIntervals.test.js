@@ -27,6 +27,6 @@ if not minor then you have to merge the intervals for sure, and the minor and gr
 from getting the Marh.min and Math.max betweeen the 2 start and 2 end time values ??? makes sens
 one thing though, i have not figure out when should i stop looking.
 
-my theory says that here we could use a while loop ? 
+my theory says that here we could use a while loop ?
 the reason is that you could merge or not merge
 */
